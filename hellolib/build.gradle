@@ -1,5 +1,6 @@
 plugins {
-    id 'com.android.library'
+//    id 'com.android.library'
+    id 'com.android.application'
     id 'kotlin-android'
     id 'maven-publish'
 }
@@ -30,28 +31,26 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
         useIR = true
-        jvmTarget = '1.8'
+        jvmTarget = '11'
         freeCompilerArgs += ["-Xskip-prerelease-check"]
     }
 
     afterEvaluate {
         publishing {
-            def versionName = "1.0.0"
             publications {
-                // Creates a Maven publication called "release".
                 paidRelease(MavenPublication) {
-                    // Applies the component for the release build variant.
+                    // The following applies a component to this publication
+                    // which results in publishing an app bundle.
                     from components.paidRelease_aab
 
-                    // You can then customize attributes of the publication as shown below.
                     groupId = 'com.young.hellolib'
-                    artifactId = 'hellolib-aab'
-                    version = versionName
+                    artifactId = 'paid-release-aab'
+                    version = '1.0'
                 }
             }
             repositories {
@@ -64,6 +63,31 @@ android {
                 }
             }
         }
+//    afterEvaluate {
+//        publishing {
+//            def versionName = "1.0.0"
+//            publications {
+//                // Creates a Maven publication called "release".
+//                release(MavenPublication) {
+//                    // Applies the component for the release build variant.
+//                    from components.release
+//
+//                    // You can then customize attributes of the publication as shown below.
+//                    groupId = 'com.young.hellolib'
+//                    artifactId = 'hellolib-aab'
+//                    version = versionName
+//                }
+//            }
+//            repositories {
+//                maven {
+//                    // change URLs to point to your repos, e.g. http://my.org/repo
+//                    def baseUrl = buildDir.getParent()
+//                    def releasesRepoUrl = "$baseUrl/repos/releases"
+//                    def snapshotsRepoUrl = "$baseUrl/repos/snapshots"
+//                    url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+//                }
+//            }
+//        }
     }
 }
 
